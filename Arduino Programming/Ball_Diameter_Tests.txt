@@ -1,0 +1,86 @@
+/*
+Code for testing different ball diameters. 
+*/
+#include <Servo.h>
+
+int ControlServoPin = 6;
+int Direction1Pin = 9;
+int Direction2Pin = 2;
+int CenterServoPin = 3;
+
+Servo ControlServo;
+
+int CenteringServoAngle = 90;
+int ControlServoMax = 170;
+int ControlServoMin = 10;
+int DegreeChange = 1;
+
+int ControlServoAngle = 90;
+//-----------------------------------------------------------------------------//
+//---------------------------------SET UP--------------------------------------//
+//-----------------------------------------------------------------------------//
+void setup() {
+    Serial.begin(9600);
+    
+    pinMode(Direction1Pin, INPUT);
+    pinMode(Direction2Pin, INPUT);
+    
+    ControlServo.attach(ControlServoPin);
+    
+    ControlServoAngle = CenteringServoAngle;
+    
+    ControlServo.write(ControlServoAngle);
+    delay(1000);
+}
+
+//-----------------------------------------------------------------------------//
+//--------------------------------FUNCTIONS------------------------------------//
+//-----------------------------------------------------------------------------//
+void MoveDirection1(){
+  ControlServoAngle = ControlServoAngle + DegreeChange;
+  
+  if(ControlServoAngle > ControlServoMax){
+    ControlServoAngle = ControlServoMax;
+  }
+  Serial.print("Servo Angle: ");
+  Serial.println(ControlServoAngle);  
+  ControlServo.write(ControlServoAngle);  
+  delay(15);
+}
+
+void MoveDirection2(){
+  ControlServoAngle = ControlServoAngle - DegreeChange;
+  
+  if(ControlServoAngle < ControlServoMin){
+    ControlServoAngle = ControlServoMin;
+  }
+  Serial.print("Servo Angle: ");
+  Serial.println(ControlServoAngle);  
+  ControlServo.write(ControlServoAngle);  
+  delay(15);
+}
+
+void CenterServo(){
+  ControlServoAngle = CenteringServoAngle;
+  Serial.print("Centering Servo. Angle: ");
+  Serial.println(ControlServoAngle);
+  ControlServo.write(ControlServoAngle);
+  delay(15);
+}
+
+//-----------------------------------------------------------------------------//
+//-----------------------------------MAIN--------------------------------------//
+//-----------------------------------------------------------------------------//
+void loop() {
+    if(digitalRead(Direction1Pin) == HIGH){
+      MoveDirection1();
+    }
+    
+    if(digitalRead(Direction2Pin) == HIGH){
+      MoveDirection2();
+    }
+    
+    if(digitalRead(CenterServoPin) == HIGH){
+      CenterServo();
+    }
+}

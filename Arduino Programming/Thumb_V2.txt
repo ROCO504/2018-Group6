@@ -1,0 +1,112 @@
+#include <Servo.h>            //Library to use servos
+
+int ForwardButtonPin = 2;
+int LeftButtonPin = 3;
+int RightButtonPin = 4;
+int BackwardsButtonPin = 5;
+
+int LoosenPin = 6;
+int TightenPin = 7;
+
+int FoldTipPin = 8;
+int UnFoldTipPin = 9;
+
+int Direction1Pin = 10;        //Pin for forwards/back motor
+int Direction2Pin = 11;        //Pin for left/right motor 
+
+int DegreeChange = 5;
+
+bool ScrewTightFlag = 0;      //Flag to know whether the screw is at its tightest
+bool ScrewLooseFlag = 0;      //Flag to know whether the screw is at the loosest we will allow
+
+Servo Direction1Servo;        //Object of servo library for forwards/back
+Servo Direction2Servo;        //Object of servo library for left/right
+
+int CenteringServoAngle = 90;  //Angle that when used centres the servo 
+
+int D1ServoAngle;         //Servo 1 position in degrees
+int D2ServoAngle;         //Servo 2 position in degrees
+
+int D1ServoUpperLimit = 170;
+int D1ServoLowerLimit = 10;
+int D2ServoUpperLimit = 170;
+int D2ServoLowerLimit = 10;
+
+void setup() {
+//  Serial.begin(9600);         //Open Serial port, set data rate 9600bps
+  
+  Direction1Servo.attach(Direction1Pin);    //Attach servo object to digital pin 
+  Direction2Servo.attach(Direction2Pin);  
+
+  D1ServoAngle = CenteringServoAngle;
+  D2ServoAngle = CenteringServoAngle;
+  
+  Direction1Servo.write(D1ServoAngle); //Centre servo 1
+  Direction2Servo.write(D2ServoAngle); //Centre servo 2
+  delay(1000);
+}
+
+void loop() {
+  
+if (ForwardButtonPin = HIGH){
+  MoveForward();
+}
+
+if (LeftButtonPin = HIGH){
+  MoveLeft();
+}
+
+if (RightButtonPin = HIGH) {
+  MoveRight();
+}
+
+if (BackwardsButtonPin = HIGH) {
+  MoveBackwards();
+}
+
+}
+
+//-----------------------------------------------------------------------------//
+//--------------------------------FUNCTIONS------------------------------------//
+//-----------------------------------------------------------------------------//
+//---Move Thumb Forwards---//
+void MoveForward(){
+//  if (ScrewTightFlag != 0) {
+    D1ServoAngle = D1ServoAngle + DegreeChange;  //Increment D1 Angle
+    if (D1ServoAngle > D1ServoUpperLimit){    //Check not outside range
+      D1ServoAngle = D1ServoUpperLimit;       //If is set to max limit
+    }
+    Direction1Servo.write(D1ServoAngle);      //Write that angle
+    delay(15);                                //Wait 15ms for the servo to reach position
+  }
+//}
+
+//---Move Thumb Backwards---//
+void MoveBackwards(){
+  D1ServoAngle = D1ServoAngle - DegreeChange;  //Decrement D1 Angle
+  if (D1ServoAngle < D1ServoLowerLimit){    //Check not outside range
+    D1ServoAngle = D1ServoLowerLimit;       //If is set to min limit
+  }
+  Direction1Servo.write(D1ServoAngle);
+  delay(15);
+}
+
+//---Move Thumb Right---//
+void MoveRight(){
+  D2ServoAngle = D2ServoAngle + DegreeChange;  //Increment D2 Angle
+  if (D2ServoAngle > D2ServoUpperLimit){    //Check not outside range
+    D2ServoAngle = D2ServoUpperLimit;       //If is set to max limit
+  }
+  Direction2Servo.write(D2ServoAngle);
+  delay(15);
+}
+
+//---Move Thumb Left---//
+void MoveLeft(){
+  D2ServoAngle = D2ServoAngle - DegreeChange; //Decrement D2 Angle
+  if (D2ServoAngle < D2ServoLowerLimit){    //Check not outside range
+    D2ServoAngle = D2ServoLowerLimit;       //If is set to min limit
+  }
+  Direction2Servo.write(D2ServoAngle);
+  delay(15);
+}
