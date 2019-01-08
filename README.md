@@ -2,7 +2,7 @@
 
 Robotic Prosphetic Thumb
 
-Christian Berry and Yasmin Braggs
+Christian Berry and Yasmin Bragg
 
 
 
