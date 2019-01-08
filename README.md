@@ -1,6 +1,8 @@
 # 2018-Group6
 
-Robotic Prosphetic File
+Robotic Prosphetic Thumb
 
 Christian Berry and Yasmin Braggs
+
+
 
